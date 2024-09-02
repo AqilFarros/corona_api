@@ -1,3 +1,4 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -23,71 +24,84 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+      appBar: AppBar(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Icon(
-              Icons.healing_rounded,
-              size: 128,
-              color: Colors.red[700],
+            const Icon(
+              Icons.healing_outlined,
+              color: Colors.white,
+              size: 32,
             ),
             Text(
-              "Welcome back ${widget.username}",
-              style: GoogleFonts.openSans(
-                fontSize: 18.0,
-                letterSpacing: 2.0,
+              "COVID-19",
+              style: GoogleFonts.ubuntu(
+                fontSize: 32,
+                color: Colors.white,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 2,
               ),
+              textAlign: TextAlign.center,
             ),
-            Text(
-              "Your password is ${widget.password}",
-              style: GoogleFonts.openSans(
-                fontSize: 18.0,
-                letterSpacing: 2.0,
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                ScaffoldMessenger.of(context).showMaterialBanner(
-                  MaterialBanner(
-                    padding: const EdgeInsets.all(20.0),
-                    content: Text(
-                      "HI ${widget.firstName} ${widget.lastName}",
-                      style: GoogleFonts.openSans(),
-                    ),
-                    leading: const Icon(Icons.handshake),
-                    backgroundColor: Colors.white70,
-                    elevation: 5,
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: () {
-                          ScaffoldMessenger.of(context)
-                              .hideCurrentMaterialBanner();
-                        },
-                        child: Text(
-                          "Dismiss",
-                          style: GoogleFonts.openSans(),
-                        ),
-                      )
-                    ],
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red[600],
-                elevation: 8,
-              ),
-              child: Text(
-                'Click Me!!!',
-                style: GoogleFonts.openSans(
-                  fontSize: 18.0,
-                  letterSpacing: 2.0,
-                  color: Colors.white,
-                ),
-              ),
+            const Icon(
+              Icons.more_vert,
+              color: Colors.white,
+              size: 32,
             ),
           ],
         ),
+        backgroundColor: Colors.red[600],
+        elevation: 8,
+        shadowColor: Colors.grey,
+      ),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 16),
+            child: Column(
+              children: [
+                PieChart(
+                  PieChartData(
+                    centerSpaceRadius: 5,
+                    borderData: FlBorderData(show: false),
+                    sectionsSpace: 2,
+                    sections: [
+                      PieChartSectionData(
+                          value: 35, color: Colors.purple, radius: 100),
+                      PieChartSectionData(
+                          value: 40, color: Colors.amber, radius: 100),
+                      PieChartSectionData(
+                          value: 55, color: Colors.green, radius: 100),
+                      PieChartSectionData(
+                          value: 70, color: Colors.orange, radius: 100),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class PieChatWidget extends StatelessWidget {
+  const PieChatWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return PieChart(
+      PieChartData(
+        centerSpaceRadius: 5,
+        borderData: FlBorderData(show: false),
+        sectionsSpace: 2,
+        sections: [
+          PieChartSectionData(value: 35, color: Colors.purple, radius: 100),
+          PieChartSectionData(value: 40, color: Colors.amber, radius: 100),
+          PieChartSectionData(value: 55, color: Colors.green, radius: 100),
+          PieChartSectionData(value: 70, color: Colors.orange, radius: 100),
+        ],
       ),
     );
   }
