@@ -47,9 +47,9 @@ class Stat {
 }
 
 class Numbers {
-  int? infected;
-  int? recovered;
-  int? fatal;
+  double? infected;
+  double? recovered;
+  double? fatal;
 
   Numbers({
     this.infected,

@@ -50,14 +50,14 @@ class ApiService {
     }
   }
 
-  Future<List<Stat>?> getStat() async {
-    var url = Uri.parse("$baseURL/news");
+  Future<Map?> getStat() async {
+    var url = Uri.parse("$baseURL/stats");
 
     var response = await http.get(url);
 
     if (response.statusCode == 200) {
-      List<dynamic> jsonResponse = jsonDecode(response.body);
-      return jsonResponse.map((item) => Stat.fromJson(item)).toList();
+      Map jsonResponse = jsonDecode(response.body);
+      return jsonResponse;
     } else {
       print("Request gagal dengan status: ${response.statusCode}");
       return null;
