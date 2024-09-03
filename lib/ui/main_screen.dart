@@ -543,53 +543,128 @@ class _TabBarWidgetState extends State<TabBarWidget> {
           child: TabBarView(
             children: [
               FutureBuilder(
-                  future: news,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else if (snapshot.hasError) {
-                      return Center(
-                        child: Text("Error: ${snapshot.error}"),
-                      );
-                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                      return const Center(
-                        child: Text("News is not found!"),
-                      );
-                    } else {
-                      return ListView.builder(
-                        itemCount: 5,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.all(8.0),
-                            margin: const EdgeInsets.symmetric(vertical: 8.0),
-                            decoration: BoxDecoration(
-                              color: Colors.grey[350],
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            child: Column(
-                              children: [
-                                Text(
-                                  "Judul Berita",
-                                  style: GoogleFonts.openSans(),
+                future: news,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text("Error: ${snapshot.error}"),
+                    );
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const Center(
+                      child: Text("News is not found!"),
+                    );
+                  } else {
+                    return ListView.builder(
+                      itemCount: 5,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(8.0),
+                          margin: const EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                            color: Colors.grey[300],
+                            borderRadius: BorderRadius.circular(8.0),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.shade600,
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                                offset: const Offset(2, 2),
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                snapshot.data![index].title.toString(),
+                                style: GoogleFonts.openSans(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
                                 ),
-                                Text(
-                                  "tanggal",
-                                  style: GoogleFonts.openSans(),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              Text(
+                                snapshot.data![index].timestamp.toString(),
+                                style: GoogleFonts.openSans(
+                                  color: Colors.grey[600],
+                                  fontWeight: FontWeight.w500,
                                 ),
-                              ],
-                            ),
-                          );
-                        },
-                      );
-                    }
-                  }),
-              Column(
-                children: [
-                  Container(),
-                ],
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  }
+                },
+              ),
+              FutureBuilder(
+                future: hoax,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text("Error: ${snapshot.error}"),
+                    );
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const Center(
+                      child: Text("Hoaxes is not found!"),
+                    );
+                  } else {
+                    return ListView.builder(
+                      itemCount: 5,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(8.0),
+                          margin: const EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                            color: Colors.grey[300],
+                            borderRadius: BorderRadius.circular(8.0),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.shade600,
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                                offset: const Offset(2, 2),
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                snapshot.data![index].title.toString(),
+                                style: GoogleFonts.openSans(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              Text(
+                                snapshot.data![index].timestamp.toString(),
+                                style: GoogleFonts.openSans(
+                                  color: Colors.grey[600],
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  }
+                },
               ),
             ],
           ),
