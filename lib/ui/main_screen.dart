@@ -43,14 +43,14 @@ class _MainScreenState extends State<MainScreen> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
+          leading: const Icon(
+            Icons.healing_outlined,
+            color: Colors.white,
+            size: 32,
+          ),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Icon(
-                Icons.healing_outlined,
-                color: Colors.white,
-                size: 32,
-              ),
               Text(
                 "COVID-19",
                 style: GoogleFonts.ubuntu(
@@ -68,6 +68,7 @@ class _MainScreenState extends State<MainScreen> {
               ),
             ],
           ),
+          
           backgroundColor: Colors.red[600],
           elevation: 8,
           shadowColor: Colors.grey,
@@ -150,7 +151,7 @@ class _MainScreenState extends State<MainScreen> {
                         }
                         numbers.shuffle();
 
-                        return CarouselSlider.builder(
+                        return CarouselSlider.builder( 
                           itemCount: 5,
                           itemBuilder: (BuildContext builder, int index,
                               int pageViewIndex) {
@@ -171,7 +172,7 @@ class _MainScreenState extends State<MainScreen> {
                       }
                     },
                   ),
-                  TabBarWidget(),
+                  const TabBarWidget(),
                 ],
               ),
             ),
