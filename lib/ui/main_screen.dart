@@ -3,6 +3,8 @@ import 'package:corona_api/model/hoax.dart';
 import 'package:corona_api/model/news.dart';
 import 'package:corona_api/service/api_service.dart';
 import 'package:corona_api/model/hospital.dart';
+import 'package:corona_api/ui/hospital_screen.dart';
+import 'package:corona_api/ui/stat_screen.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -89,6 +91,7 @@ class _MainScreenState extends State<MainScreen> {
             ),
             child: Center(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   DashboardWidget(
                     username: widget.username.toString(),
@@ -128,6 +131,31 @@ class _MainScreenState extends State<MainScreen> {
                         );
                       }
                     },
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const StatScreen(),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      shadowColor: Colors.transparent,
+                    ),
+                    child: Text(
+                      "see more",
+                      style: GoogleFonts.ubuntu(
+                        color: Colors.blue[300],
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        decoration: TextDecoration.underline,
+                        decorationColor: Colors.blue[300],
+                        decorationThickness: 5,
+                      ),
+                    ),
                   ),
                   TitleWidget(
                     icon: Icon(
@@ -179,6 +207,31 @@ class _MainScreenState extends State<MainScreen> {
                         );
                       }
                     },
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const HospitalScreen(),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      shadowColor: Colors.transparent,
+                    ),
+                    child: Text(
+                      "see more",
+                      style: GoogleFonts.ubuntu(
+                        color: Colors.blue[300],
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        decoration: TextDecoration.underline,
+                        decorationColor: Colors.blue[300],
+                        decorationThickness: 5,
+                      ),
+                    ),
                   ),
                   const TabBarWidget(),
                 ],
@@ -237,7 +290,7 @@ class DashboardWidget extends StatelessWidget {
               Column(
                 children: [
                   Text(
-                    "Welcome Back $username \nYour Password is ...",
+                    "Welcome Back ${username.substring(0, 8)} \nYour Password is ...",
                     style: GoogleFonts.openSans(
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
@@ -520,19 +573,6 @@ class _TabBarWidgetState extends State<TabBarWidget> {
   final Future<List<News>?> news = ApiService().getNews();
   final Future<List<Hoax>?> hoax = ApiService().getHoax();
 
-  final _scrollController = ScrollController();
-  final _list = <String>[];
-  int _currentPage = 1;
-
-  Future<void> _launchUrl(Uri url) async =>
-      canLaunchUrl(url).then((bool canLaunch) async {
-        if (canLaunch) {
-          await launchUrl(url);
-        } else {
-          print('Cannot launch URL');
-        }
-      });
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -581,7 +621,7 @@ class _TabBarWidgetState extends State<TabBarWidget> {
                     );
                   } else {
                     return ListView.builder(
-                      itemCount: 5,
+                      itemCount: snapshot.data!.length,
                       itemBuilder: (BuildContext context, int index) {
                         return GestureDetector(
                           onTap: () {
@@ -649,7 +689,7 @@ class _TabBarWidgetState extends State<TabBarWidget> {
                     );
                   } else {
                     return ListView.builder(
-                      itemCount: 5,
+                      itemCount: snapshot.data!.length,
                       itemBuilder: (BuildContext context, int index) {
                         return GestureDetector(
                           onTap: () {
