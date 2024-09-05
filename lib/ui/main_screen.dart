@@ -4,9 +4,9 @@ import 'package:corona_api/model/news.dart';
 import 'package:corona_api/service/api_service.dart';
 import 'package:corona_api/model/hospital.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({
@@ -43,14 +43,14 @@ class _MainScreenState extends State<MainScreen> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          leading: const Icon(
-            Icons.healing_outlined,
-            color: Colors.white,
-            size: 32,
-          ),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              const Icon(
+                Icons.healing_outlined,
+                color: Colors.white,
+                size: 32,
+              ),
               Text(
                 "COVID-19",
                 style: GoogleFonts.ubuntu(
@@ -61,14 +61,22 @@ class _MainScreenState extends State<MainScreen> {
                 ),
                 textAlign: TextAlign.center,
               ),
-              const Icon(
-                Icons.more_vert,
-                color: Colors.white,
-                size: 32,
+              IconButton(
+                onPressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    '/login',
+                    (router) => false,
+                  );
+                },
+                icon: const Icon(
+                  Icons.logout_outlined,
+                  color: Colors.white,
+                  size: 32,
+                ),
               ),
             ],
           ),
-          
           backgroundColor: Colors.red[600],
           elevation: 8,
           shadowColor: Colors.grey,
@@ -151,7 +159,7 @@ class _MainScreenState extends State<MainScreen> {
                         }
                         numbers.shuffle();
 
-                        return CarouselSlider.builder( 
+                        return CarouselSlider.builder(
                           itemCount: 5,
                           itemBuilder: (BuildContext builder, int index,
                               int pageViewIndex) {
@@ -512,6 +520,19 @@ class _TabBarWidgetState extends State<TabBarWidget> {
   final Future<List<News>?> news = ApiService().getNews();
   final Future<List<Hoax>?> hoax = ApiService().getHoax();
 
+  final _scrollController = ScrollController();
+  final _list = <String>[];
+  int _currentPage = 1;
+
+  Future<void> _launchUrl(Uri url) async =>
+      canLaunchUrl(url).then((bool canLaunch) async {
+        if (canLaunch) {
+          await launchUrl(url);
+        } else {
+          print('Cannot launch URL');
+        }
+      });
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -540,7 +561,7 @@ class _TabBarWidgetState extends State<TabBarWidget> {
           ],
         ),
         SizedBox(
-          height: 300,
+          height: 500,
           child: TabBarView(
             children: [
               FutureBuilder(
@@ -562,42 +583,48 @@ class _TabBarWidgetState extends State<TabBarWidget> {
                     return ListView.builder(
                       itemCount: 5,
                       itemBuilder: (BuildContext context, int index) {
-                        return Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.all(8.0),
-                          margin: const EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                            color: Colors.grey[300],
-                            borderRadius: BorderRadius.circular(8.0),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.shade600,
-                                spreadRadius: 1,
-                                blurRadius: 5,
-                                offset: const Offset(2, 2),
-                              ),
-                            ],
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                snapshot.data![index].title.toString(),
-                                style: GoogleFonts.openSans(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
+                        return GestureDetector(
+                          onTap: () {
+                            launchUrl(Uri.parse(
+                                snapshot.data![index].url.toString()));
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.all(8.0),
+                            margin: const EdgeInsets.all(8.0),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[300],
+                              borderRadius: BorderRadius.circular(8.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.shade600,
+                                  spreadRadius: 1,
+                                  blurRadius: 5,
+                                  offset: const Offset(2, 2),
                                 ),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              Text(
-                                snapshot.data![index].timestamp.toString(),
-                                style: GoogleFonts.openSans(
-                                  color: Colors.grey[600],
-                                  fontWeight: FontWeight.w500,
+                              ],
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  snapshot.data![index].title.toString(),
+                                  style: GoogleFonts.openSans(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                              ),
-                            ],
+                                Text(
+                                  snapshot.data![index].timestamp.toString(),
+                                  style: GoogleFonts.openSans(
+                                    color: Colors.grey[600],
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         );
                       },
@@ -624,42 +651,48 @@ class _TabBarWidgetState extends State<TabBarWidget> {
                     return ListView.builder(
                       itemCount: 5,
                       itemBuilder: (BuildContext context, int index) {
-                        return Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.all(8.0),
-                          margin: const EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                            color: Colors.grey[300],
-                            borderRadius: BorderRadius.circular(8.0),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.shade600,
-                                spreadRadius: 1,
-                                blurRadius: 5,
-                                offset: const Offset(2, 2),
-                              ),
-                            ],
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                snapshot.data![index].title.toString(),
-                                style: GoogleFonts.openSans(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
+                        return GestureDetector(
+                          onTap: () {
+                            launchUrl(Uri.parse(
+                                snapshot.data![index].url.toString()));
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.all(8.0),
+                            margin: const EdgeInsets.all(8.0),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[300],
+                              borderRadius: BorderRadius.circular(8.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.shade600,
+                                  spreadRadius: 1,
+                                  blurRadius: 5,
+                                  offset: const Offset(2, 2),
                                 ),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              Text(
-                                snapshot.data![index].timestamp.toString(),
-                                style: GoogleFonts.openSans(
-                                  color: Colors.grey[600],
-                                  fontWeight: FontWeight.w500,
+                              ],
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  snapshot.data![index].title.toString(),
+                                  style: GoogleFonts.openSans(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                              ),
-                            ],
+                                Text(
+                                  snapshot.data![index].timestamp.toString(),
+                                  style: GoogleFonts.openSans(
+                                    color: Colors.grey[600],
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         );
                       },

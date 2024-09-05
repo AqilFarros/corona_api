@@ -4,7 +4,6 @@ import 'package:corona_api/config/config.dart';
 import 'package:corona_api/model/hoax.dart';
 import 'package:corona_api/model/hospital.dart';
 import 'package:corona_api/model/news.dart';
-import 'package:corona_api/model/stat.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {
