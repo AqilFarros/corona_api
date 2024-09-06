@@ -105,7 +105,7 @@ class _StatScreenState extends State<StatScreen> {
                                   Text(
                                     snapshot.data!["regions"][index]["name"],
                                     style: GoogleFonts.openSans(
-                                      fontSize: 18.0,
+                                      fontSize: 22.0,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.red[600],
                                     ),
@@ -113,17 +113,21 @@ class _StatScreenState extends State<StatScreen> {
                                   ),
                                   Row(
                                     children: [
-                                      Icon(
-                                        Icons.map_outlined,
-                                        color: Colors.red[600],
-                                        size: 20,
+                                      Text(
+                                        "Infected:",
+                                        style: GoogleFonts.openSans(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.red[900],
+                                        ),
                                       ),
                                       const SizedBox(
                                         width: 5,
                                       ),
                                       Expanded(
                                         child: Text(
-                                          snapshot.data!["regions"][index]["number"]["infected"]
+                                          snapshot.data!["regions"][index]
+                                                  ["numbers"]["infected"]
                                               .toString(),
                                           style: GoogleFonts.openSans(
                                             fontWeight: FontWeight.w600,
@@ -135,17 +139,47 @@ class _StatScreenState extends State<StatScreen> {
                                   ),
                                   Row(
                                     children: [
-                                      Icon(
-                                        Icons.phone,
-                                        color: Colors.red[600],
-                                        size: 20,
+                                      Text(
+                                        "Recovered:",
+                                        style: GoogleFonts.openSans(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.green[900],
+                                        ),
                                       ),
                                       const SizedBox(
                                         width: 5,
                                       ),
                                       Expanded(
                                         child: Text(
-                                          snapshot.data!["regions"][index]["number"]["infected"]
+                                          snapshot.data!["regions"][index]
+                                                  ["numbers"]["infected"]
+                                              .toString(),
+                                          style: GoogleFonts.openSans(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "Fatal:",
+                                        style: GoogleFonts.openSans(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w900,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          snapshot.data!["regions"][index]
+                                                  ["numbers"]["infected"]
                                               .toString(),
                                           style: GoogleFonts.openSans(
                                             fontWeight: FontWeight.w600,
@@ -158,16 +192,17 @@ class _StatScreenState extends State<StatScreen> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                      Icon(
-                                        Icons.location_on,
-                                        color: Colors.red[600],
-                                        size: 24,
-                                      ),
-                                      Text(
-                                        snapshot.data![index].province
-                                            .toString(),
-                                        style: GoogleFonts.openSans(
-                                          fontSize: 16,
+                                      ElevatedButton(
+                                        onPressed: () {},
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.red[600],
+                                        ),
+                                        child: Text(
+                                          "Show Chart",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                         ),
                                       ),
                                     ],

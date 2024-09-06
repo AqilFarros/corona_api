@@ -3,6 +3,7 @@ import 'package:corona_api/service/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+
 class HospitalScreen extends StatefulWidget {
   const HospitalScreen({
     super.key,
