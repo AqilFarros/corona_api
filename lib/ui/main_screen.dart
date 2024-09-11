@@ -9,6 +9,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:intl/intl.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({
@@ -623,6 +624,7 @@ class _TabBarWidgetState extends State<TabBarWidget> {
                     return ListView.builder(
                       itemCount: snapshot.data!.length,
                       itemBuilder: (BuildContext context, int index) {
+                        DateFormat formatter = DateFormat('dd-MM-yyyy');
                         return GestureDetector(
                           onTap: () {
                             launchUrl(Uri.parse(
@@ -657,7 +659,11 @@ class _TabBarWidgetState extends State<TabBarWidget> {
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 Text(
-                                  snapshot.data![index].timestamp.toString(),
+                                  formatter
+                                      .format(
+                                          DateTime.fromMicrosecondsSinceEpoch(
+                                              snapshot.data![index].timestamp!))
+                                      .toString(),
                                   style: GoogleFonts.openSans(
                                     color: Colors.grey[600],
                                     fontWeight: FontWeight.w500,
@@ -691,6 +697,7 @@ class _TabBarWidgetState extends State<TabBarWidget> {
                     return ListView.builder(
                       itemCount: snapshot.data!.length,
                       itemBuilder: (BuildContext context, int index) {
+                        DateFormat formatter = DateFormat('dd-MM-yyyy');
                         return GestureDetector(
                           onTap: () {
                             launchUrl(Uri.parse(
@@ -725,7 +732,11 @@ class _TabBarWidgetState extends State<TabBarWidget> {
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 Text(
-                                  snapshot.data![index].timestamp.toString(),
+                                  formatter
+                                      .format(
+                                          DateTime.fromMicrosecondsSinceEpoch(
+                                              snapshot.data![index].timestamp!))
+                                      .toString(),
                                   style: GoogleFonts.openSans(
                                     color: Colors.grey[600],
                                     fontWeight: FontWeight.w500,

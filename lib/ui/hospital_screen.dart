@@ -7,7 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 class HospitalScreen extends StatefulWidget {
   const HospitalScreen({
     super.key,
-  });
+  });                                                                                                                          
 
   @override
   State<HospitalScreen> createState() => _HospitalScreenState();
